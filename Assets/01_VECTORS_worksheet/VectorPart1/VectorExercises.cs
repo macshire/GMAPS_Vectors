@@ -74,7 +74,7 @@ public class VectorExercises : MonoBehaviour
             drawnLine = lineFactory.GetLine(
                 startPt, endPt, 0.02f, Color.black);
 
-            drawnLine.EnableDrawing(true) ;
+            drawnLine.EnableDrawing(true);
         }
     }
 
