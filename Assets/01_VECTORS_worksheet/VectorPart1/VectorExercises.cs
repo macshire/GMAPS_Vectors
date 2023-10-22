@@ -59,9 +59,9 @@ public class VectorExercises : MonoBehaviour
         Debug.Log("Magnitude = " + vec2.magnitude);
     }
 
-    void Question2b(int n)
+    void Question2b(int i)
     {
-        for (n = 0; n < 20; n++)
+        for (i = 0; i < 20; i++)
         {
             startPt = new Vector2(
                 Random.Range(-maxX, maxX),
@@ -80,25 +80,27 @@ public class VectorExercises : MonoBehaviour
 
     void Question2d()
     {
-
+        DebugExtension.DebugArrow(
+            new Vector3(0, 0, 0),
+            new Vector3(5, 5, 0),
+            Color.red,
+            60f);
     }
 
-    void Question2e(int n)
+    void Question2e(int i)
     {
-        for (int i = 0; i < n; i++)
+        for (i = 0; i < 20; i++)
         {
-            startPt = new Vector2(
-                Random.Range(-maxX, maxX), 
-                Random.Range(-maxY, maxY));
+            endPt = new Vector3(
+                Random.Range(-maxX, maxX),
+                Random.Range(-maxY, maxY),
+                Random.Range(-maxX, maxX));
 
-            // Your code here
-            // ...
-
-            //DebugExtension.DebugArrow(
-            //    new Vector3(0, 0, 0),
-            //    // Your code here,
-            //    Color.white,
-            //    60f);
+            DebugExtension.DebugArrow(
+                new Vector3(0, 0, 0),
+                endPt,
+                Color.white,
+                60f);
         }  
     }
 
