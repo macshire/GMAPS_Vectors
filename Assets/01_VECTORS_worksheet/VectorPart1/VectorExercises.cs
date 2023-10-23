@@ -132,7 +132,13 @@ public class VectorExercises : MonoBehaviour
 
     public void Question3c()
     {
+        HVector2D a = new HVector2D(3, 5);
+        HVector2D normalisedA = new HVector2D(a.x, a.y);
+        normalisedA.Normalize();
+        DebugExtension.DebugArrow(Vector3.zero, a.ToUnityVector3(), Color.red, 60f);
+        DebugExtension.DebugArrow(new Vector3(1, 0, 0), normalisedA.ToUnityVector3(), Color.green, 60f);
 
+        Debug.Log("Magnitude of normalisedA = " + normalisedA.Magnitude().ToString("F2"));
     }
 
     public void Projection()
