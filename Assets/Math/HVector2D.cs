@@ -30,35 +30,37 @@ public class HVector2D
         h = 1.0f;
     }
 
-    // public static HVector2D operator +( /*???*/)
-    // {
+    public static HVector2D operator +(HVector2D a, HVector2D b)
+    {
+        return new HVector2D(a.x + b.x, a.y + b.y);
+    }
 
-    // }
+    public static HVector2D operator -(HVector2D a, HVector2D b)
+    {
+        return new HVector2D(a.x - b.x, a.y - b.y);
+    }
 
-    // public static HVector2D operator -(/*???*/)
-    // {
+    public static HVector2D operator *(HVector2D a, float scalar)
+    {
+        return new HVector2D(a.x * scalar, a.y * scalar);
+    }
 
-    // }
+    public static HVector2D operator /(HVector2D a, float scalar)
+    {
+        return new HVector2D(a.x / scalar, a.y / scalar);
+    }
 
-    // public static HVector2D operator *(/*???*/)
-    // {
+    public float Magnitude()
+    {
+        return (float)Math.Sqrt(x * x + y * y);
+    }
 
-    // }
-
-    // public static HVector2D operator /(/*???*/)
-    // {
-
-    // }
-
-    // public float Magnitude()
-    // {
-
-    // }
-
-    // public void Normalize()
-    // {
-
-    // }
+    public void Normalize()
+    {
+        float mag = Magnitude();
+        x /= mag;
+        y /= mag;
+    }
 
     // public float DotProduct(/*???*/)
     // {
@@ -82,7 +84,7 @@ public class HVector2D
 
     public Vector3 ToUnityVector3()
     {
-        return Vector2.zero; // change this
+        return new Vector3(x, y, h); 
     }
 
     // public void Print()
