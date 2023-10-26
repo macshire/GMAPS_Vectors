@@ -14,15 +14,30 @@ public class MarioHVector2D : MonoBehaviour
 
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
-        gravityDir = new HVector2D(planet.position - transform.position);  
+        //direction from object to centre of planet
+        gravityDir = new HVector2D(planet.position - transform.position);
+        gravityDir.Normalize();
         moveDir = new HVector2D(gravityDir.y, -gravityDir.x);
+        moveDir.Normalize();
 
-        // Your code here
-        // ...
+        rb.AddForce(gravityDir.ToUnityVector3() * gravityStrength);
+        rb.AddForce(-moveDir.ToUnityVector3() * force);
+
+        //calculate angle between gravitydir and movedir in radian to degrees
+        //create a perpendicular line to differentiate between positive and negative angle for rotation
+        float angle = Mathf.Rad2Deg * gravityDir.FindAngle(new HVector2D(0, -1));
+        
+
+        //rotates object to specified angle
+        rb.MoveRotation(Quaternion.Euler(0, 0, angle));
+
+        DebugExtension.DebugArrow(transform.position, gravityDir.ToUnityVector3() * gravityStrength, Color.red);
+        DebugExtension.DebugArrow(transform.position, -moveDir.ToUnityVector3(), Color.blue);
+
     }
 }

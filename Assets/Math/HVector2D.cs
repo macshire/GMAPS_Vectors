@@ -75,7 +75,13 @@ public class HVector2D
 
     public float FindAngle(HVector2D vec)
     {
-        return (float)Mathf.Acos(DotProduct(vec) / (Magnitude() * vec.Magnitude()));
+        float angle = Mathf.Acos(DotProduct(vec) / (Magnitude() * vec.Magnitude()));
+        //checks when the object is one one end of the perpendicular line, if so switches the angle to either positive or negative
+        if(x < 0)
+        {
+            angle = -angle;
+        }
+        return angle;
     }
 
     public Vector2 ToUnityVector2()
