@@ -65,10 +65,17 @@ public class HMatrix2D
         return new HMatrix2D();
     }
 
-//    public static HMatrix2D operator *(HMatrix2D left, float scalar)
-//    {
-//        return // your code here
-//    }
+    public static HMatrix2D operator *(HMatrix2D left, float scalar)
+    {
+        for (int y = 0; y < left.entries.GetLength(0); y++)
+        {
+            for (int x = 0; x < left.entries.GetLength(1); x++)
+            {
+                new HMatrix2D().entries[x, y] = left.entries[x, y] * scalar;
+            }
+        }
+        return new HMatrix2D();
+    }
 
 //    // Note that the second argument is a HVector2D object
 //    //
@@ -101,15 +108,35 @@ public class HMatrix2D
 //    );
 //    }
 
-//    public static bool operator ==(HMatrix2D left, HMatrix2D right)
-//    {
-//        // your code here
-//    }
+    public static bool operator ==(HMatrix2D left, HMatrix2D right)
+    {
+        for (int y = 0; y < left.entries.GetLength(0); y++)
+        {
+            for (int x = 0; x < left.entries.GetLength(1); x++)
+            {
+                if (left.entries[x, y] == right.entries[x, y])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-//    public static bool operator !=(HMatrix2D left, HMatrix2D right)
-//    {
-//        // your code here
-//    }
+    public static bool operator !=(HMatrix2D left, HMatrix2D right)
+    {
+        for (int y = 0; y < left.entries.GetLength(0); y++)
+        {
+            for (int x = 0; x < left.entries.GetLength(1); x++)
+            {
+                if (left.entries[x, y] != right.entries[x, y])
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 //    public override bool Equals(object obj)
 //    {
