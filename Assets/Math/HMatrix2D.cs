@@ -5,10 +5,12 @@ using UnityEngine;
 public class HMatrix2D
 {
     public float[,] entries { get; set; } = new float[3, 3];
+    public int Rows => entries.GetLength(0);
+    public int Columns => entries.GetLength(1);
 
     public HMatrix2D()
     {
-        // your code here
+        entries = new float[3, 3];
     }
 
     public HMatrix2D(float[,] multiArray)
@@ -18,7 +20,7 @@ public class HMatrix2D
             for (int x = 0; x < entries.GetLength(1); x++)
             {
                 //set matrix values
-                entries[x, y] = multiArray[x, y];
+                entries[x, y] = (x == y) ? 1 : 0;
             }
         }
     }
@@ -67,46 +69,51 @@ public class HMatrix2D
 
     public static HMatrix2D operator *(HMatrix2D left, float scalar)
     {
-        for (int y = 0; y < left.entries.GetLength(0); y++)
+        float[,] resultMatrix = new float[left.Rows, left.Columns];
+
+        for (int i = 0; i < left.Rows; i++)
         {
-            for (int x = 0; x < left.entries.GetLength(1); x++)
+            for (int j = 0; j < left.Columns; j++)
             {
-                new HMatrix2D().entries[x, y] = left.entries[x, y] * scalar;
+                //add elements from the two matrix and store them in the result Matrix
+                resultMatrix[i, j] = left.entries[i, j] - scalar;
             }
         }
-        return new HMatrix2D();
+
+        return new HMatrix2D(resultMatrix);
     }
 
-//    // Note that the second argument is a HVector2D object
-//    //
-//    public static HVector2D operator *(HMatrix2D left, HVector2D right)
-//    {
-//        return // your code here
-//    }
+    // Note that the second argument is a HVector2D object
+    public static HVector2D operator *(HMatrix2D left, HVector2D right)
+    {
+        return new HVector2D
+        (
+            left.entries[0, 0] * right.x + left.entries[0, 1] * right.y + left.entries[0, 2] * right.h,
+            left.entries[1, 0] * right.x + left.entries[1, 1] * right.y + left.entries[1, 2] * right.h
 
-//    // Note that the second argument is a HMatrix2D object
-//    //
-//    public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
-//    {
-//        return new HMatrix2D
-//        (
-//            /* 
-//                00 01 02    00 xx xx
-//                xx xx xx    10 xx xx
-//                xx xx xx    20 xx xx
-//                */
-//            left.Entries[0, 0] * right.Entries[0, 0] + left.Entries[0, 1] * right.Entries[1, 0] + left.Entries[0, 2] * right.Entries[2, 0],
+        );
+    }
 
-//            /* 
-//                00 01 02    xx 01 xx
-//                xx xx xx    xx 11 xx
-//                xx xx xx    xx 21 xx
-//                */
-//            left.Entries[0, 0] * right.Entries[0, 1] + left.Entries[0, 1] * right.Entries[1, 1] + left.Entries[0, 2] * right.Entries[2, 1],
+    // Note that the second argument is a HMatrix2D object
+    //
+    public static HMatrix2D operator *(HMatrix2D left, HMatrix2D right)
+    {
+        return new HMatrix2D
+        (
+            left.entries[0, 0] * right.entries[0, 0] + left.entries[0, 1] * right.entries[1, 0] + left.entries[0, 2] * right.entries[2, 0],
+            left.entries[0, 0] * right.entries[0, 1] + left.entries[0, 1] * right.entries[1, 1] + left.entries[0, 2] * right.entries[2, 1],
+            left.entries[0, 0] * right.entries[0, 2] + left.entries[0, 1] * right.entries[1, 2] + left.entries[0, 2] * right.entries[2, 2],
 
-//        // and so on for another 7 entries
-//    );
-//    }
+            left.entries[1, 0] * right.entries[0, 0] + left.entries[1, 1] * right.entries[1, 0] + left.entries[1, 2] * right.entries[2, 0],
+            left.entries[1, 0] * right.entries[0, 1] + left.entries[1, 1] * right.entries[1, 1] + left.entries[1, 2] * right.entries[2, 1],
+            left.entries[1, 0] * right.entries[0, 2] + left.entries[1, 1] * right.entries[1, 2] + left.entries[1, 2] * right.entries[2, 2],
+
+            left.entries[2, 0] * right.entries[0, 0] + left.entries[2, 1] * right.entries[1, 0] + left.entries[2, 2] * right.entries[2, 0],
+            left.entries[2, 0] * right.entries[0, 1] + left.entries[2, 1] * right.entries[1, 1] + left.entries[2, 2] * right.entries[2, 1],
+            left.entries[2, 0] * right.entries[0, 2] + left.entries[2, 1] * right.entries[1, 2] + left.entries[2, 2] * right.entries[2, 2]
+
+        );
+    }
 
     public static bool operator ==(HMatrix2D left, HMatrix2D right)
     {
@@ -176,20 +183,27 @@ public class HMatrix2D
         }
     }
 
-//    public void setTranslationMat(float transX, float transY)
-//    {
-//        // your code here
-//    }
+    public void setTranslationMat(float transX, float transY)
+    {
+        setIdentity();
+        entries[0, 2] = transX;
+        entries[1, 2] = transY;
+    }
 
-//    public void setRotationMat(float rotDeg)
-//    {
-//        // your code here
-//    }
+    public void setRotationMat(float rotDeg)
+    {
+        setIdentity();
+        float rad = rotDeg * Mathf.Deg2Rad;
+        entries[0, 0] = Mathf.Cos(rad);
+        entries[0, 1] = -Mathf.Sin(rad);
+        entries[1, 0] = Mathf.Sin(rad);
+        entries[1, 1] = Mathf.Cos(rad);
+    }
 
-//    public void setScalingMat(float scaleX, float scaleY)
-//    {
-//        // your code here
-//    }
+    //    public void setScalingMat(float scaleX, float scaleY)
+    //    {
+    //        // your code here
+    //    }
 
     public void Print()
     {
